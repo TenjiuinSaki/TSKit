@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04ECB328B7920703B39B6E49E995FFCE /* ReplaceMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BABD0E258E03E004306A76518B96DBB /* ReplaceMe.swift */; };
 		109C09C36E580181CADF031F70F99A4B /* TSKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7729DB22DAC5615C065477569A1EA9 /* TSKit-dummy.m */; };
 		23FD591C2FC405B26AC4A82A6131C3E3 /* Pods-TSKit_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9C5F032A68E8625C1CDBC6A82BC43A /* Pods-TSKit_Example-dummy.m */; };
 		26DCCB1C91012DD00DDEAE95A5155FF9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		51D156A46466F612946D807AF3234670 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		567887DC1F0E0A6C0044344C /* TSKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567887DB1F0E0A6C0044344C /* TSKit.swift */; };
 		8D9D1950437A678B1F48A2F8304BC6CC /* Pods-TSKit_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F0E4104D6E0F202DA6A66EF06628117E /* Pods-TSKit_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B4D5DD12DD93D00291CF0EE3646D55F9 /* Pods-TSKit_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 58307CEAB8B1F69FF1BAC8B7A9700C79 /* Pods-TSKit_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D7E25FB3B488BFD98325F8632EA14510 /* Pods-TSKit_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2175839E4A19B86D1AB109270D9B8665 /* Pods-TSKit_Tests-dummy.m */; };
@@ -30,8 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		18FECFFA907CD22D8F4B27CFFB24E265 /* Pods-TSKit_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-TSKit_Example.modulemap"; sourceTree = "<group>"; };
-		19AD2DE599CF7DA9B5686670A4EDCB0B /* Pods_TSKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_TSKit_Example.framework; path = "Pods-TSKit_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		18FECFFA907CD22D8F4B27CFFB24E265 /* Pods-TSKit_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-TSKit_Example.modulemap"; sourceTree = "<group>"; };
+		19AD2DE599CF7DA9B5686670A4EDCB0B /* Pods_TSKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TSKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2016FEDC89FC4B4464387635AA245922 /* Pods-TSKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TSKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		2175839E4A19B86D1AB109270D9B8665 /* Pods-TSKit_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TSKit_Tests-dummy.m"; sourceTree = "<group>"; };
 		2698A56B56E835B63F225FA0730181C2 /* Pods-TSKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TSKit_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -39,26 +39,27 @@
 		417F33323C1F5E1151E48E8342ACD7E0 /* Pods-TSKit_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TSKit_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		498E35079C94C4B3342B44ED786051BB /* Pods-TSKit_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TSKit_Example-frameworks.sh"; sourceTree = "<group>"; };
 		499E6861398A706245BE86A881F3367B /* Pods-TSKit_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TSKit_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		567887DA1F0E0A6C0044344C /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		567887DB1F0E0A6C0044344C /* TSKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSKit.swift; sourceTree = "<group>"; };
 		58307CEAB8B1F69FF1BAC8B7A9700C79 /* Pods-TSKit_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TSKit_Example-umbrella.h"; sourceTree = "<group>"; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6ADB1EC0BEBF8956FB96AFE28995247B /* TSKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TSKit-prefix.pch"; sourceTree = "<group>"; };
 		6D736BC68B15B25BBBDBA37374721BC2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80C993E88E8D7EBBF2F3DC6E96D4A985 /* TSKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TSKit-umbrella.h"; sourceTree = "<group>"; };
 		893530CDB61A9C1F4331D29975CD9713 /* Pods-TSKit_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TSKit_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9BABD0E258E03E004306A76518B96DBB /* ReplaceMe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReplaceMe.swift; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A2CF01A021E599A45625AF3457ACA2D3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B86F5269AFB4C582642926C86E818719 /* TSKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TSKit.xcconfig; sourceTree = "<group>"; };
 		B8AC831CA0D4DDCF1EECE8BAC70830EC /* Pods-TSKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TSKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		BA76170C3782058F6B043EC54072A0C5 /* Pods-TSKit_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-TSKit_Tests.modulemap"; sourceTree = "<group>"; };
+		BA76170C3782058F6B043EC54072A0C5 /* Pods-TSKit_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-TSKit_Tests.modulemap"; sourceTree = "<group>"; };
 		BE9C5F032A68E8625C1CDBC6A82BC43A /* Pods-TSKit_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TSKit_Example-dummy.m"; sourceTree = "<group>"; };
-		C1C37988A84AD011C1612D775D862088 /* TSKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TSKit.framework; path = TSKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1C37988A84AD011C1612D775D862088 /* TSKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TSKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A77917E12B16002C0BE955B6D53EA4 /* Pods-TSKit_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TSKit_Example-resources.sh"; sourceTree = "<group>"; };
 		DA86FD6F17701449914F6620E240D5DB /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB7729DB22DAC5615C065477569A1EA9 /* TSKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TSKit-dummy.m"; sourceTree = "<group>"; };
-		DD2F4095F2BAB26350C949B180FD155D /* TSKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = TSKit.modulemap; sourceTree = "<group>"; };
+		DD2F4095F2BAB26350C949B180FD155D /* TSKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = TSKit.modulemap; sourceTree = "<group>"; };
 		E07838DB6D7A65E7A9DC66C8D5A22E47 /* Pods-TSKit_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TSKit_Tests-frameworks.sh"; sourceTree = "<group>"; };
-		E100B8C607AE92AFC4E2141F4A55E7D8 /* Pods_TSKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_TSKit_Tests.framework; path = "Pods-TSKit_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E100B8C607AE92AFC4E2141F4A55E7D8 /* Pods_TSKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TSKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC4FF5DD87C10942794C86FCE1C58B18 /* Pods-TSKit_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TSKit_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		F0E4104D6E0F202DA6A66EF06628117E /* Pods-TSKit_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TSKit_Tests-umbrella.h"; sourceTree = "<group>"; };
 		FF33E89B34E5C837E755C12FBBD93CBF /* Pods-TSKit_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TSKit_Tests-resources.sh"; sourceTree = "<group>"; };
@@ -109,9 +110,8 @@
 		1E7BF103904AEBED33573E1044C1072A /* TSKit */ = {
 			isa = PBXGroup;
 			children = (
-				D6634C05F69D115DB840DFD816C5F695 /* Classes */,
+				567887D91F0E0A6C0044344C /* Classes */,
 			);
-			name = TSKit;
 			path = TSKit;
 			sourceTree = "<group>";
 		};
@@ -160,6 +160,15 @@
 			);
 			name = TSKit;
 			path = ../..;
+			sourceTree = "<group>";
+		};
+		567887D91F0E0A6C0044344C /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				567887DA1F0E0A6C0044344C /* .gitkeep */,
+				567887DB1F0E0A6C0044344C /* TSKit.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -213,15 +222,6 @@
 				6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */,
 			);
 			name = iOS;
-			sourceTree = "<group>";
-		};
-		D6634C05F69D115DB840DFD816C5F695 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				9BABD0E258E03E004306A76518B96DBB /* ReplaceMe.swift */,
-			);
-			name = Classes;
-			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,7 +339,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04ECB328B7920703B39B6E49E995FFCE /* ReplaceMe.swift in Sources */,
 				109C09C36E580181CADF031F70F99A4B /* TSKit-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23FD591C2FC405B26AC4A82A6131C3E3 /* Pods-TSKit_Example-dummy.m in Sources */,
+				567887DC1F0E0A6C0044344C /* TSKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

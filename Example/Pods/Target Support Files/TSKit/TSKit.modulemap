@@ -1,0 +1,6 @@
+framework module TSKit {
+  umbrella header "TSKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

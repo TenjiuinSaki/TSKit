@@ -7,34 +7,35 @@
 //
 
 import UIKit
+import Cache
 
-struct Screen {
-    static let width = UIScreen.main.bounds.size.width
-    static let height = UIScreen.main.bounds.size.height
-    static let bounds = UIScreen.main.bounds
+public struct TSScreen {
+    public static let width = UIScreen.main.bounds.size.width
+    public static let height = UIScreen.main.bounds.size.height
+    public static let bounds = UIScreen.main.bounds
     
     /// 横屏缩放比例，标准比例6s
-    static let wScale = UIScreen.main.bounds.size.width / 375
+    public static let wScale = UIScreen.main.bounds.size.width / 375
     /// 竖屏缩放比例，标准比例6s
-    static let hScale = UIScreen.main.bounds.size.height / 667
+    public static let hScale = UIScreen.main.bounds.size.height / 667
 }
 
-extension Int {
+public extension Int {
     var wScale: CGFloat {
-        let f = CGFloat(self) * Screen.wScale
+        let f = CGFloat(self) * TSScreen.wScale
         let size = CGFloat.maximum(1, floor(f))
         return size
     }
     var hScale: CGFloat {
-        let f = CGFloat(self) * Screen.hScale
+        let f = CGFloat(self) * TSScreen.hScale
         let size = CGFloat.maximum(1, floor(f))
         return size
     }
 }
 
 
-struct Font {
-    static func size(_ size: Int, name: String? = nil, isBold: Bool = false) -> UIFont {
+public struct TSFont {
+    public static func size(_ size: Int, name: String? = nil, isBold: Bool = false) -> UIFont {
         if let name = name {
             return UIFont(name: name, size: size.wScale)!
         } else if isBold {
@@ -42,45 +43,51 @@ struct Font {
         } else {
             return UIFont.systemFont(ofSize: size.wScale)
         }
-        
     }
 }
 
 
-
-
-struct Storyboard {
+public struct TSStoryboard {
     private static let main = UIStoryboard(name: "Main", bundle: nil)
     
-    static func setRootViewController(_ viewController: UIViewController) {
-        UIApplication.shared.keyWindow?.rootViewController = viewController
-        
+    /// 根控制器
+    public static var rootViewController: UIViewController {
+        set {
+            UIApplication.shared.keyWindow?.rootViewController = newValue
+        }
+        get {
+            return UIApplication.shared.keyWindow!.rootViewController!
+        }
     }
     
-    static func instance(_ identifier: String) -> UIViewController {
+    /// 实例化Storyboard控制器
+    ///
+    /// - Parameter identifier: String
+    /// - Returns: UIViewController
+    public static func instance(_ identifier: String) -> UIViewController {
         return main.instantiateViewController(withIdentifier: identifier)
     }
     
     /// 起始控制器
-    static func initial() -> UIViewController {
+    public static func initial() -> UIViewController {
         return main.instantiateInitialViewController()!
     }
     
 }
 
-struct Xib {
-    static func viewsOfXib(name: String) -> [UIView] {
+public struct TSNib {
+    public static func viewsOfNib(name: String) -> [UIView] {
         return Bundle.main.loadNibNamed(name, owner: nil, options: nil) as! [UIView]
     }
     
-    static func viewOfXib<T: UIView>(viewClass: T.Type) -> T {
+    public static func viewOfNib<T: UIView>(viewClass: T.Type) -> T {
         let className = NSStringFromClass(T.self)
         let nibName = className.components(separatedBy: ".").last!
         return Bundle.main.loadNibNamed(nibName, owner: nil, options: nil)?.first as! T
     }
 }
 
-extension String {
+public extension String {
     /// Unicode转化为汉字
     var decodeUnicode: String {
         let tempStr1 = self.replacingOccurrences(of: "\\u", with: "\\U")
@@ -92,7 +99,8 @@ extension String {
     }
 }
 
-func info<T>(message: T, fullName: String = #file, lineNum: Int = #line) {
+
+public func TSLog<T>(message: T, fullName: String = #file, lineNum: Int = #line) {
     let path = fullName.components(separatedBy: "/").last!
     let fileName = path.components(separatedBy: ".").first!
     print("‼️\(fileName)-[第\(lineNum)行]:💋\(message)")
@@ -101,22 +109,50 @@ func info<T>(message: T, fullName: String = #file, lineNum: Int = #line) {
 
 
 
-struct DirPath {
+public struct TSDirPath {
     /// (home)/Documents
-    static var document: String {
+    public static var document: String {
         return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
     }
     /// (home)/Library/Caches
-    static var caches: String {
+    public static var caches: String {
         return NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
     }
     /// home
-    static var home: String {
+    public static var home: String {
         return NSHomeDirectory()
     }
     /// (home)/tmp
-    static var temporary: String {
+    public static var temporary: String {
         return NSTemporaryDirectory()
+    }
+}
+
+public struct TSCache {
+    /// 缓存
+    static let cache = HybridCache(name: "SystemCache", config: Config(
+        expiry: .date(Date().addingTimeInterval(60 * 5)),   //过期时间5分钟
+        memoryCountLimit: 0,
+        memoryTotalCostLimit: 0,
+        maxDiskSize: 10000,                             //缓存大小10M
+        cacheDirectory: TSDirPath.document + "/cache-in-documents"))
+    
+    public static func setDic(_ dic: [String: Any], key: String) {
+        try? cache.addObject(JSON.dictionary(dic), forKey: key)
+    }
+    
+    public static func getDic(key: String) -> [String: Any]? {
+        let json: JSON? = cache.object(forKey: key)
+        return json?.object as? [String: Any]
+    }
+    
+    public static func setArray(_ arr: [Any], key: String) {
+        try? cache.addObject(JSON.array(arr), forKey: key)
+    }
+    
+    public static func getArray(key: String) -> [Any]? {
+        let json: JSON? = cache.object(forKey: key)
+        return json?.object as? [Any]
     }
 }
 

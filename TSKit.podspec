@@ -17,5 +17,5 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://github.com/TenjiuinSaki'
   s.ios.deployment_target = "8.0"
   s.source_files = 'TSKit/**/*'
-
+  s.dependency 'Cache'
 end

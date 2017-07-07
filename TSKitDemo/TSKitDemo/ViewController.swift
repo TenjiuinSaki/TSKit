@@ -18,6 +18,15 @@ class ViewController: UIViewController {
         TSLog(message: TSDirPath.document)
 //        TSCache.setDic(["key": "value"], key: "dic")
         TSLog(message: TSCache.getDic(key: "dic"))
+        
+        let str = "发数据库fksjf_34924290"
+        let regex = "[\\u4e00-\\u9fa5\\w]{2,20}"        //数组字母下划线汉字2~20位
+        
+        let arr = str.regularMatch(with: regex)
+        for str in arr {
+            TSLog(message: str)
+        }
+        TSLog(message: str.validate(with: regex))
     }
 
     override func didReceiveMemoryWarning() {

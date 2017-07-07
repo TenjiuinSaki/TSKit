@@ -97,6 +97,36 @@ public extension String {
         let returnStr = try! PropertyListSerialization.propertyList(from: tempData, options: [.mutableContainers, .mutableContainersAndLeaves], format: nil) as! String
         return returnStr.replacingOccurrences(of: "\\r\\n", with: "\n")
     }
+    
+    /// 匹配所有符合正则的字符串
+    ///
+    /// - Parameter regex: 正则表达式
+    /// - Returns: String数组
+    func regularMatch(with regex: String) -> [String] {
+        var resArray = [String]()
+        do {
+            let regular = try NSRegularExpression(pattern: regex, options: NSRegularExpression.Options.caseInsensitive)
+            let res = regular.matches(in: self, options: NSRegularExpression.MatchingOptions.init(rawValue: 0), range: NSMakeRange(0, self.characters.count))
+            for checkRes in res {
+                resArray.append((self as NSString).substring(with: checkRes.range))
+            }
+        } catch {}
+        return resArray
+    }
+    
+    /// 验证字符串是否符合正则
+    ///
+    /// - Parameter regex: 正则表达式
+    /// - Returns: Bool 真：符合
+    func validate(with regex: String) -> Bool {
+        let pred = NSPredicate(format: "SELF MATCHES %@", regex)
+        return pred.evaluate(with: self)
+    }
+    
+    var base64: String? {
+        return self.data(using: .utf8)?.base64EncodedString()
+    }
+    
 }
 
 
@@ -155,4 +185,6 @@ public struct TSCache {
         return json?.object as? [Any]
     }
 }
+
+
 

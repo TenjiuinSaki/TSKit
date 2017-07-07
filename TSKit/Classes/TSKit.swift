@@ -186,5 +186,17 @@ public struct TSCache {
     }
 }
 
-
+public extension UIView {
+    
+    /// 快照
+    /// viewDidAppear后起作用
+    /// - Returns: 图片
+    func snapshot() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(self.frame.size, false, 0)
+        self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+}
 

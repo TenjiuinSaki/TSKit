@@ -8,6 +8,7 @@
 
 import UIKit
 import Cache
+import Alamofire
 
 public struct TSScreen {
     public static let width = UIScreen.main.bounds.size.width
@@ -199,4 +200,80 @@ public extension UIView {
         return image
     }
 }
+
+public struct TSHttpRequest {
+    
+    public static func get(url: String, params: [String: AnyObject]? = nil, log: Bool = false, success: ((Any) -> Void)? = nil, fail: ((String) -> Void)? = nil) {
+        
+        guard NetworkReachabilityManager.init()!.isReachable else {
+            if let fail = fail {
+                fail("无网络连接")
+            }
+            return
+        }
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        Alamofire.request(url, method: .get, parameters: params).responseJSON { (res) in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            if res.result.isSuccess {
+                if let data = res.result.value as? [String: AnyObject] {
+                    if log {
+                        TSLog(message: data.description.decodeUnicode)
+                    }
+                    if let success = success {
+                        success(data)
+                    }
+                } else if let data = res.result.value as? [AnyObject] {
+                    if log {
+                        TSLog(message: data.description.decodeUnicode)
+                    }
+                    if let success = success {
+                        success(data)
+                    }
+                }
+            } else {
+                if let fail = fail {
+                    fail("请求失败")
+                }
+            }
+        }
+    }
+    
+    public static func post(url: String, params: [String: AnyObject]? = nil, log: Bool = false, success: ((Any) -> Void)? = nil, fail: ((String) -> Void)? = nil) {
+        
+        guard NetworkReachabilityManager.init()!.isReachable else {
+            if let fail = fail {
+                fail("无网络连接")
+            }
+            return
+        }
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        Alamofire.request(url, method: .post, parameters: params).responseJSON { (res) in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            if res.result.isSuccess {
+                if let data = res.result.value as? [String: AnyObject] {
+                    if log {
+                        TSLog(message: data.description.decodeUnicode)
+                    }
+                    if let success = success {
+                        success(data)
+                    }
+                } else if let data = res.result.value as? [AnyObject] {
+                    if log {
+                        TSLog(message: data.description.decodeUnicode)
+                    }
+                    if let success = success {
+                        success(data)
+                    }
+                }
+            } else {
+                if let fail = fail {
+                    fail("请求失败")
+                }
+            }
+        }
+    }
+}
+
 

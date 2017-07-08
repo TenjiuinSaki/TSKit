@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '590A435CB8ED3715828FE867D37EEC79'
+               BlueprintIdentifier = 'AFB89DD9E6EE78C1348B987BE0FCB2FF'
                BlueprintName = 'TSKit'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'TSKit.framework'>

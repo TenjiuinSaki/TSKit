@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Cache.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,12 +32,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>48592901A292A3E322B02B12C89CF7C8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>590A435CB8ED3715828FE867D37EEC79</key>
+		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -43,6 +43,16 @@
 			<true/>
 		</dict>
 		<key>969A2EEFD23EFA74B37612859AD2DA65</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AFB89DD9E6EE78C1348B987BE0FCB2FF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E7B03BB6EB60B5CB0E7F5BFA057E5922</key>
 		<dict>
 			<key>primary</key>
 			<true/>

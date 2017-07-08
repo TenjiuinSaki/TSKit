@@ -27,6 +27,7 @@ class ViewController: UIViewController {
             TSLog(message: str)
         }
         TSLog(message: str.validate(with: regex))
+        
     }
 
     override func didReceiveMemoryWarning() {

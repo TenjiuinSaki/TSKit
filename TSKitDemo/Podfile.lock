@@ -1,8 +1,10 @@
 PODS:
+  - Alamofire (4.5.0)
   - Cache (3.3.0):
     - SwiftHash (~> 1.4.0)
   - SwiftHash (1.4.0)
-  - TSKit (1.0.1):
+  - TSKit (1.0.3):
+    - Alamofire
     - Cache
 
 DEPENDENCIES:
@@ -13,9 +15,10 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   Cache: 871805a8a7268feac34f5c10c54506801f0bd4cd
   SwiftHash: acf0f29032309a5c7a7f625595eade1aca97aca2
-  TSKit: 4f7cd4ff1df27bf9555a414b6cb210d57b4b8616
+  TSKit: 2ad6fef3ad0d348cf4e9f26022533e293671cb22
 
 PODFILE CHECKSUM: 282aae3a1389997b4df6ca8389b5a60f508d5c61
 

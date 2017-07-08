@@ -203,12 +203,10 @@ public extension UIView {
 
 public struct TSHttpRequest {
     
-    public static func get(url: String, params: [String: AnyObject]? = nil, log: Bool = false, success: ((Any) -> Void)? = nil, fail: ((String) -> Void)? = nil) {
+    public static func get(url: String, params: [String: AnyObject]? = nil, log: Bool = false, success: ((NSObject) -> Void)? = nil, fail: ((String) -> Void)? = nil) {
         
         guard NetworkReachabilityManager.init()!.isReachable else {
-            if let fail = fail {
-                fail("无网络连接")
-            }
+            fail?("无网络连接")
             return
         }
         
@@ -216,35 +214,24 @@ public struct TSHttpRequest {
         Alamofire.request(url, method: .get, parameters: params).responseJSON { (res) in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             if res.result.isSuccess {
-                if let data = res.result.value as? [String: AnyObject] {
+                if let data = res.result.value as? NSObject {
                     if log {
-                        TSLog(message: data.description.decodeUnicode)
+                        TSLog(message: "***************GET请求***************\nURL:\(url)\n" + data.description.decodeUnicode)
                     }
-                    if let success = success {
-                        success(data)
-                    }
-                } else if let data = res.result.value as? [AnyObject] {
-                    if log {
-                        TSLog(message: data.description.decodeUnicode)
-                    }
-                    if let success = success {
-                        success(data)
-                    }
+                    success?(data)
+                } else {
+                    fail?("数据解析失败")
                 }
             } else {
-                if let fail = fail {
-                    fail("请求失败")
-                }
+                fail?("请求失败")
             }
         }
     }
     
-    public static func post(url: String, params: [String: AnyObject]? = nil, log: Bool = false, success: ((Any) -> Void)? = nil, fail: ((String) -> Void)? = nil) {
+    public static func post(url: String, params: [String: AnyObject]? = nil, log: Bool = false, success: ((NSObject) -> Void)? = nil, fail: ((String) -> Void)? = nil) {
         
         guard NetworkReachabilityManager.init()!.isReachable else {
-            if let fail = fail {
-                fail("无网络连接")
-            }
+            fail?("无网络连接")
             return
         }
         
@@ -252,25 +239,16 @@ public struct TSHttpRequest {
         Alamofire.request(url, method: .post, parameters: params).responseJSON { (res) in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             if res.result.isSuccess {
-                if let data = res.result.value as? [String: AnyObject] {
+                if let data = res.result.value as? NSObject {
                     if log {
-                        TSLog(message: data.description.decodeUnicode)
+                        TSLog(message: "***************POST请求***************\nURL:\(url)\n" + data.description.decodeUnicode)
                     }
-                    if let success = success {
-                        success(data)
-                    }
-                } else if let data = res.result.value as? [AnyObject] {
-                    if log {
-                        TSLog(message: data.description.decodeUnicode)
-                    }
-                    if let success = success {
-                        success(data)
-                    }
+                    success?(data)
+                } else {
+                    fail?("数据解析失败")
                 }
             } else {
-                if let fail = fail {
-                    fail("请求失败")
-                }
+                fail?("请求失败")
             }
         }
     }

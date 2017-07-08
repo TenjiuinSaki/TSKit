@@ -28,6 +28,12 @@ class ViewController: UIViewController {
         }
         TSLog(message: str.validate(with: regex))
         
+        let url = "http://192.168.2.105:8080/youzheng/mobile/publicInformation/lists"
+        let params = ["paramType": 2] as [String: AnyObject]
+        
+        TSHttpRequest.post(url: url, params: params, log: true, success: { (data) in
+            
+        })
     }
 
     override func didReceiveMemoryWarning() {

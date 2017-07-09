@@ -127,9 +127,50 @@ public extension String {
     var base64: String? {
         return self.data(using: .utf8)?.base64EncodedString()
     }
-    
+    //"1498448144000"
+    func time(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
+        guard let timeInterval = Double(self) else { return "" }
+        let date: Date
+        if self.hasSuffix("000") {
+            date = Date(timeIntervalSince1970: timeInterval / 1000)
+        } else {
+            date = Date(timeIntervalSince1970: timeInterval)
+        }
+        let now = Date()
+        let interval = Int(now.timeIntervalSince(date))
+        if interval < 60 {
+            return "刚刚"
+        }
+        if interval < 60 * 60 {
+            return "\(interval / 60)分钟前"
+        }
+        if interval < 60 * 60 * 24 {
+            return "\(interval / 60 / 60)小时前"
+        }
+        if interval < 60 * 60 * 24 * 3 {
+            return "\(interval / 60 / 60 / 24)天前"
+        }
+        return date.string(format: format)
+    }
+    func date(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
+        guard let timeInterval = Double(self) else { return "" }
+        let date: Date
+        if self.hasSuffix("000") {
+            date = Date(timeIntervalSince1970: timeInterval / 1000)
+        } else {
+            date = Date(timeIntervalSince1970: timeInterval)
+        }
+        return date.string(format: format)
+    }
 }
 
+public extension Date {
+    func string(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+}
 
 public func TSLog<T>(message: T, fullName: String = #file, lineNum: Int = #line) {
     let path = fullName.components(separatedBy: "/").last!
@@ -199,6 +240,25 @@ public extension UIView {
         UIGraphicsEndImageContext()
         return image
     }
+    
+    func border(cornerRadius: CGFloat, color: UIColor, width: CGFloat) {
+        self.layer.cornerRadius = cornerRadius
+        self.layer.masksToBounds = true
+        self.layer.borderColor = color.cgColor
+        self.layer.borderWidth = width
+    }
+    
+    func corner(radius: CGFloat) {
+        self.layer.cornerRadius = radius
+        self.layer.masksToBounds = true
+    }
+    
+    func shadow(color: UIColor) {
+        self.layer.shadowColor = color.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 3)
+        self.layer.shadowRadius = 6
+        self.layer.shadowOpacity = 0.5
+    }
 }
 
 public struct TSHttpRequest {
@@ -254,4 +314,58 @@ public struct TSHttpRequest {
     }
 }
 
+public class TSGradientLabel: UIView {
+    let label = UILabel()
+    let gradientLayer = CAGradientLayer()
+    
+    public convenience init(frame: CGRect, text: String, font: UIFont = TSFont.size(20, isBold: true)) {
+        self.init(frame: frame)
+        
+        label.frame = bounds
+        label.textAlignment = .center
+        label.text = text
+        label.font = font
+        
+        addSubview(label)
+    }
+    
+    public func setColors(colors: [UIColor], endPoint: CGPoint = CGPoint(x: 0, y: 1)) {
+        var cgColors = [CGColor]()
+        for color in colors {
+            cgColors.append(color.cgColor)
+        }
+        gradientLayer.frame = bounds
+        gradientLayer.colors = cgColors
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = endPoint
+        
+        layer.addSublayer(gradientLayer)
+        gradientLayer.mask = label.layer
+    }
+}
+
+public class TSGradientButton: UIButton {
+    
+    
+    public convenience init(frame: CGRect, colors: [UIColor], endPoint: CGPoint = CGPoint(x: 1, y: 0)) {
+        self.init(frame: frame)
+        let gradientLayer = CAGradientLayer()
+        var cgColors = [CGColor]()
+        for color in colors {
+            cgColors.append(color.cgColor)
+        }
+        gradientLayer.colors = cgColors
+        gradientLayer.frame = bounds
+        gradientLayer.backgroundColor = UIColor.white.cgColor
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = endPoint
+        gradientLayer.cornerRadius = bounds.size.height / 2
+        gradientLayer.shadowColor = cgColors.last
+        gradientLayer.shadowOffset = CGSize(width: 0, height: 3)
+        gradientLayer.shadowRadius = 6
+        gradientLayer.shadowOpacity = 0.5
+        layer.addSublayer(gradientLayer)
+    }
+    
+}
 

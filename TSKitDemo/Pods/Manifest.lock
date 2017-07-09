@@ -2,12 +2,14 @@ PODS:
   - Alamofire (4.5.0)
   - Cache (3.3.0):
     - SwiftHash (~> 1.4.0)
+  - SnapKit (3.2.0)
   - SwiftHash (1.4.0)
-  - TSKit (1.0.3):
+  - TSKit (1.0.4):
     - Alamofire
     - Cache
 
 DEPENDENCIES:
+  - SnapKit
   - TSKit (from `../`)
 
 EXTERNAL SOURCES:
@@ -17,9 +19,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   Cache: 871805a8a7268feac34f5c10c54506801f0bd4cd
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   SwiftHash: acf0f29032309a5c7a7f625595eade1aca97aca2
-  TSKit: 2ad6fef3ad0d348cf4e9f26022533e293671cb22
+  TSKit: 0995f5ba83db0cd1d596353ccd223bcb061b69f7
 
-PODFILE CHECKSUM: 282aae3a1389997b4df6ca8389b5a60f508d5c61
+PODFILE CHECKSUM: f46fa4a4ebc1b0d00eea23836c3b224360782f1a
 
 COCOAPODS: 1.3.0.beta.2

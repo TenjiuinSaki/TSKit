@@ -8,6 +8,7 @@
 
 import UIKit
 import TSKit
+import SnapKit
 
 class ViewController: UIViewController {
 
@@ -28,12 +29,20 @@ class ViewController: UIViewController {
         }
         TSLog(message: str.validate(with: regex))
         
-        let url = "http://192.168.2.105:8080/youzheng/mobile/publicInformation/lists"
-        let params = ["paramType": 2] as [String: AnyObject]
+        TSLog(message: "1498448144".time())
         
-        TSHttpRequest.post(url: url, params: params, log: true, success: { (data) in
-            
-        })
+    
+        let label = TSGradientLabel(frame: CGRect(x: 0, y: 100, width: TSScreen.width, height: 100), text: "Swift", font: TSFont.size(50, isBold: true))
+        label.clipsToBounds = true
+        label.setColors(colors: [#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1), #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)], endPoint: CGPoint(x: 1, y: 1))
+        view.addSubview(label)
+        
+//        label.border(cornerRadius: 50, color: #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1), width: 2)
+        label.shadow(color: #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1))
+        
+        let button = TSGradientButton(frame: CGRect(x: 10, y: 300, width: TSScreen.width - 20, height: 50), colors: [#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1), #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)])
+        button.setTitle("Objective-C", for: .normal)
+        view.addSubview(button)
     }
 
     override func didReceiveMemoryWarning() {

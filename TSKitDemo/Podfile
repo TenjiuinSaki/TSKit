@@ -11,3 +11,4 @@ end
 
 
 pod 'TSKit', :path => '../'
+pod 'SnapKit'

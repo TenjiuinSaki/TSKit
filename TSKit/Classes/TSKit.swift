@@ -318,18 +318,15 @@ public class TSGradientLabel: UIView {
     let label = UILabel()
     let gradientLayer = CAGradientLayer()
     
-    public convenience init(frame: CGRect, text: String, font: UIFont = TSFont.size(20, isBold: true)) {
+    public convenience init(frame: CGRect, text: String, colors: [UIColor], endPoint: CGPoint = CGPoint(x: 0, y: 1), font: UIFont = TSFont.size(20, isBold: true)) {
         self.init(frame: frame)
         
-        label.frame = bounds
-        label.textAlignment = .center
+        addSubview(label)
         label.text = text
         label.font = font
+        label.frame = bounds
+        label.textAlignment = .center
         
-        addSubview(label)
-    }
-    
-    public func setColors(colors: [UIColor], endPoint: CGPoint = CGPoint(x: 0, y: 1)) {
         var cgColors = [CGColor]()
         for color in colors {
             cgColors.append(color.cgColor)
@@ -339,9 +336,11 @@ public class TSGradientLabel: UIView {
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = endPoint
         
-        layer.addSublayer(gradientLayer)
+        
         gradientLayer.mask = label.layer
+        layer.addSublayer(gradientLayer)
     }
+    
 }
 
 public class TSGradientButton: UIButton {

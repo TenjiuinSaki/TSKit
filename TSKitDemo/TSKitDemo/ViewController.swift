@@ -29,12 +29,10 @@ class ViewController: UIViewController {
         }
         TSLog(message: str.validate(with: regex))
         
-        TSLog(message: "1498448144".time())
+        TSLog(message: "1499448144".time())
         
     
-        let label = TSGradientLabel(frame: CGRect(x: 0, y: 100, width: TSScreen.width, height: 100), text: "Swift", font: TSFont.size(50, isBold: true))
-        label.clipsToBounds = true
-        label.setColors(colors: [#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1), #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)], endPoint: CGPoint(x: 1, y: 1))
+        let label = TSGradientLabel(frame: CGRect(x: 0, y: 100, width: TSScreen.width, height: 100), text: "Swift", colors: [#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1), #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)], font: TSFont.size(50, isBold: true))
         view.addSubview(label)
         
 //        label.border(cornerRadius: 50, color: #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1), width: 2)

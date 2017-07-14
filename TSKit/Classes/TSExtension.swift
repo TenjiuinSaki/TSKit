@@ -360,4 +360,19 @@ public extension UIViewController {
         alert.addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
+    
+    /// 通过字符串实例化控制器
+    ///
+    /// - Returns:
+    static func instance(name: String) -> UIViewController? {
+        let nameSpace = Bundle.main.infoDictionary!["CFBundleExecutable"]
+        guard let ns = nameSpace as? String else{
+            return nil
+        }
+        let thisClass: AnyClass? = NSClassFromString(ns + "." + name)
+        guard let thisClassType = thisClass as? UIViewController.Type else{
+            return nil
+        }
+        return thisClassType.init()
+    }
 }

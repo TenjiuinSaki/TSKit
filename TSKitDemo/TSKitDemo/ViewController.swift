@@ -65,7 +65,8 @@ class ViewController: UIViewController {
 //            subImageView.frame = rect
 //            imageView.addSubview(subImageView)
 //        }
-        
+        let vc = UIViewController.instance(name: "ViewController")
+        TSLog(message: vc)
     }
 
     func buttonClick() {

@@ -4,7 +4,7 @@ PODS:
     - SwiftHash (~> 1.4.0)
   - SnapKit (3.2.0)
   - SwiftHash (1.4.0)
-  - TSKit (1.0.4):
+  - TSKit (1.0.5):
     - Alamofire
     - Cache
 
@@ -21,7 +21,7 @@ SPEC CHECKSUMS:
   Cache: 871805a8a7268feac34f5c10c54506801f0bd4cd
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   SwiftHash: acf0f29032309a5c7a7f625595eade1aca97aca2
-  TSKit: 0995f5ba83db0cd1d596353ccd223bcb061b69f7
+  TSKit: e8e13907f24ea77a670f177631cda4d9aeaba438
 
 PODFILE CHECKSUM: f46fa4a4ebc1b0d00eea23836c3b224360782f1a
 

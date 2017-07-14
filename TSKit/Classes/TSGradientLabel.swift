@@ -46,7 +46,6 @@ public class TSGradientLabel: UIView {
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = endPoint
         
-        
         gradientLayer.mask = label.layer
         layer.addSublayer(gradientLayer)
     }

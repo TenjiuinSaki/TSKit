@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TSKit'
-  s.version          = '1.0.5'
+  s.version          = '1.1.0'
   s.summary          = 'A framework for commonly used functions'
   s.homepage         = 'https://github.com/TenjiuinSaki/TSKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -17,6 +17,4 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://github.com/TenjiuinSaki'
   s.ios.deployment_target = "8.0"
   s.source_files = 'TSKit/**/*'
-  s.dependency 'Cache'
-  s.dependency 'Alamofire'
 end

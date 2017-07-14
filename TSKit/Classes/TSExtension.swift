@@ -172,6 +172,12 @@ public extension String {
         return date.string(format: format)
     }
     
+    /// 当前时间戳
+    static func timestamp() -> String {
+        let interval = Date().timeIntervalSince1970
+        return String(interval)
+    }
+    
     /// 计算字符串高度
     ///
     /// - Parameters:
@@ -251,5 +257,107 @@ public extension UIView {
         self.layer.shadowOffset = CGSize(width: 0, height: 3)
         self.layer.shadowRadius = 6
         self.layer.shadowOpacity = 0.5
+    }
+}
+
+public extension UIImage {
+    
+    /// 人脸识别，获取面部位置
+    ///
+    /// - Parameter scaleSize: 图片缩放
+    /// - Returns:
+    func faceRects() -> [CGRect] {
+        guard let cgImage = self.cgImage else { return [] }
+        
+        let ciImage = CIImage(cgImage: cgImage)
+        
+        // 识别精度高，但识别速度慢、性能低
+        let detector = CIDetector(ofType: CIDetectorTypeFace, context: CIContext(), options: [CIDetectorAccuracy: CIDetectorAccuracyHigh])!
+        
+        let features = detector.features(in: ciImage)
+        
+        // 转换坐标系 垂直翻转
+        var transform = CGAffineTransform(scaleX: 1, y: -1)
+        // 平移变换
+        transform = transform.translatedBy(x: 0, y: -self.size.height)
+        
+        var factRects = [CGRect]()
+        for featrue in features {
+            
+            let faceFeatrue = featrue as! CIFaceFeature
+            let faceRect = faceFeatrue.bounds.applying(transform)
+            factRects.append(faceRect)
+        }
+        return factRects
+    }
+    
+    /// 比例缩放图片
+    ///
+    /// - Parameter size: 尺寸
+    /// - Returns:
+    func scale(size: CGSize) -> UIImage {
+        let imageWidth = self.size.width
+        let imageHeight = self.size.height
+        
+        let widthScale = size.width / imageWidth
+        let heightScale = size.height / imageHeight
+        let scale = min(widthScale, heightScale)
+        
+        let scaleWidth = imageWidth * scale
+        let scaleHeight = imageHeight * scale
+        let targetSize = CGSize(width: scaleWidth, height: scaleHeight)
+        
+        UIGraphicsBeginImageContext(targetSize)
+        self.draw(in: CGRect(origin: .zero, size: targetSize))
+        return UIGraphicsGetImageFromCurrentImageContext()!
+    }
+    
+    /// 抠图
+    ///
+    /// - Parameter rect: 方位
+    /// - Returns:
+    func crop(at rect: CGRect) -> UIImage {
+        let cgImage = self.cgImage!.cropping(to: rect)!
+        return UIImage(cgImage: cgImage)
+    }
+    
+    /// 马赛克
+    var pixellate: UIImage {
+        return self.filter(name: "CIPixellate")
+    }
+    var invert: UIImage {
+        return self.filter(name: "CIColorInvert")
+    }
+    
+    func filter(name: String) -> UIImage {
+        let ciImage = CIImage(cgImage: self.cgImage!)
+        let filter = CIFilter(name: name)!
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        let outImage = filter.outputImage!
+        return UIImage(ciImage: outImage)
+    }
+    
+    var gray: UIImage {
+        let imageWidth = Int(self.size.width)
+        let imageHeight = Int(self.size.height)
+        
+        let space = CGColorSpaceCreateDeviceGray()
+        let context = CGContext(data: nil, width: imageWidth, height: imageHeight, bitsPerComponent: 8, bytesPerRow: 0, space: space, bitmapInfo: 0)!
+        let rect = CGRect(origin: .zero, size: self.size)
+        context.draw(self.cgImage!, in: rect)
+        let cgImage = context.makeImage()!
+        return UIImage(cgImage: cgImage)
+    }
+    
+    func saveAlbum() {
+        UIImageWriteToSavedPhotosAlbum(self, nil, nil, nil)
+    }
+}
+
+public extension UIViewController {
+    func showAlert(title: String = "提示", message: String, cancel: String = "确定") {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }

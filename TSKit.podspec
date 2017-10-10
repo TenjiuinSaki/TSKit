@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TSKit'
-  s.version          = '1.1.0'
+  s.version          = '1.1.1'
   s.summary          = 'A framework for commonly used functions'
   s.homepage         = 'https://github.com/TenjiuinSaki/TSKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }

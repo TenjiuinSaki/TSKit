@@ -73,7 +73,7 @@ class CaptureViewController: UIViewController {
         // 获取后置摄像头
         let captureDevice = AVCaptureDeviceDiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaTypeVideo, position: .back)
         guard let device = captureDevice?.devices.first else {
-            showAlert(message: "无可用摄像头")
+            
             return
         }
         currentDevice = device
@@ -227,7 +227,8 @@ class CaptureViewController: UIViewController {
                 
             })
         default:
-            showAlert(message: "授权访问相册")
+            ()
+//            showAlert(message: "授权访问相册")
         }
         
         

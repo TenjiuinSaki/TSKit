@@ -8,7 +8,17 @@
 
 import UIKit
 
-
+public extension UIScreen {
+    static var type: Int {
+        if CGFloat.screenHeight > 667 {
+            return 2
+        } else if CGFloat.screenHeight < 667 {
+            return 0
+        } else {
+            return 1
+        }
+    }
+}
 public extension CGFloat {
     static let screenWidth = UIScreen.main.bounds.size.width
     static let screenHeight = UIScreen.main.bounds.size.height
@@ -28,42 +38,77 @@ public extension Int {
         let size = CGFloat.maximum(1, floor(f))
         return size
     }
+}
+
+public extension Double {
+    func precision(p: Int) -> String {
+        return String(format: "%.\(p)f", self)
+    }
     
+    var str: String {
+        return String(format: "%g", self)
+    }
 }
 
 
 public extension UIFont {
-    public static func size(_ size: Int, name: String? = nil, isBold: Bool = false) -> UIFont {
-        if let name = name {
-            return UIFont(name: name, size: size.wScale)!
-        } else if isBold {
-            return UIFont.boldSystemFont(ofSize: size.wScale)
-        } else {
-            return UIFont.systemFont(ofSize: size.wScale)
-        }
+    
+    static func size(_ size: Int) -> UIFont {
+        return UIFont.systemFont(ofSize: size.wScale)
+    }
+    static func name(_ name: String, size: Int) -> UIFont? {
+        return UIFont(name: name, size: size.wScale)
+    }
+    static func bold(size: Int) -> UIFont {
+        return UIFont.boldSystemFont(ofSize: size.wScale)
     }
 }
 
+public extension UIApplication {
+    var version: String {
+        return Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+    }
+    func checkVision(appId: String, complete: @escaping (String) -> Void) {
+        
+        let session = URLSession.shared
+        let url = URL(string: "http://itunes.apple.com/cn/lookup?id=" + appId)!
+        let task = session.dataTask(with: url) { (data, res, err) in
+            if let data = data {
+                let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+                
+                guard let dic = json as? NSDictionary,
+                    let results = dic["results"] as? NSArray,
+                    let result = results[0] as? NSDictionary,
+                    let version = result["version"] as? String
+                    else {
+                        return
+                }
+                
+                complete(version)
+                
+            }
+        }
+        task.resume()
+    }
+    
+    func openUpdate(appId: String) {
+        self.openURL(URL(string: "http://itunes.apple.com/cn/app/id" + appId)!)
+    }
+}
 
 public extension UIStoryboard {
     static let main = UIStoryboard(name: "Main", bundle: nil)
     
-    /// 根控制器
-    static var rootViewController: UIViewController {
-        set {
-            UIApplication.shared.keyWindow?.rootViewController = newValue
-        }
-        get {
-            return UIApplication.shared.keyWindow!.rootViewController!
-        }
-    }
     
+    static func get(name: String) -> UIStoryboard {
+        return UIStoryboard(name: name, bundle: nil)
+    }
     /// 实例化Storyboard控制器
     ///
     /// - Parameter identifier: String
     /// - Returns: UIViewController
-    static func instance(_ identifier: String) -> UIViewController {
-        return main.instantiateViewController(withIdentifier: identifier)
+    func instance(_ identifier: String) -> UIViewController {
+        return self.instantiateViewController(withIdentifier: identifier)
     }
     
     /// 起始控制器
@@ -178,6 +223,17 @@ public extension String {
         return String(interval)
     }
     
+    func toDate(format: String = "yyyy-MM-dd HH:mm") -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.date(from: self)
+    }
+    
+    func width(font: UIFont) -> CGFloat {
+        let rect = (self as NSString).boundingRect(with: CGSize(width: CGFloat.infinity, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        return rect.size.width
+    }
+    
     /// 计算字符串高度
     ///
     /// - Parameters:
@@ -190,7 +246,38 @@ public extension String {
     }
     
     /// 设备UUID
-    static let deviceUUID = UIDevice.current.identifierForVendor!.uuidString
+    static var deviceUUID: String {
+        return UIDevice.current.identifierForVendor!.uuidString
+    }
+    
+    /// 去掉后几位
+    func removeLast(count: Int) -> String {
+        guard self.characters.count > count else {
+            return self
+        }
+        return (self as NSString).substring(with: NSMakeRange(0, self.characters.count - count))
+    }
+    
+    func removeFirst(count: Int) -> String {
+        guard self.characters.count > count else {
+            return self
+        }
+        return (self as NSString).substring(from: count)
+    }
+    
+    /// 保留后几位
+    func retainLast(count: Int) -> String {
+        guard self.characters.count > count else {
+            return self
+        }
+        return (self as NSString).substring(with: NSMakeRange(self.characters.count - count, count))
+    }
+    func retainFirst(count: Int) -> String {
+        guard self.characters.count > count else {
+            return self
+        }
+        return (self as NSString).substring(to: count)
+    }
     
     /// 转Int
     var int: Int? {
@@ -258,6 +345,108 @@ public extension UIView {
         self.layer.shadowRadius = 6
         self.layer.shadowOpacity = 0.5
     }
+    
+    func removeSubviews() {
+        for subview in self.subviews {
+            subview.removeFromSuperview()
+        }
+    }
+    
+    var viewController: UIViewController? {
+        var next = self.next
+        while next != nil {
+            if next! is UIViewController {
+                return next as? UIViewController
+            }
+            next = next?.next
+        }
+        return nil
+    }
+    
+    var width: CGFloat {
+        set {
+            frame.size.width = newValue
+        }
+        get {
+            return frame.width
+        }
+        
+    }
+    var height: CGFloat {
+        set {
+            frame.size.height = newValue
+        }
+        get {
+            return frame.height
+        }
+    }
+    
+    var x: CGFloat {
+        set {
+            frame.origin.x = newValue
+        }
+        get {
+            return frame.minX
+        }
+    }
+    
+    var y: CGFloat {
+        set {
+            frame.origin.y = newValue
+        }
+        get {
+            return frame.minY
+        }
+    }
+    
+    var maxX: CGFloat {
+        set {
+            frame.size.width = newValue - x
+        }
+        get {
+            return frame.maxX
+        }
+    }
+    
+    var maxY: CGFloat {
+        set {
+            frame.size.height = newValue - y
+        }
+        get {
+            return frame.maxY
+        }
+    }
+    
+    var right: CGFloat {
+        set {
+            frame.origin.x = newValue - width
+        }
+        get {
+            return frame.maxX
+        }
+    }
+    
+    var bottom: CGFloat {
+        set {
+            frame.origin.y = newValue - height
+        }
+        get {
+            return frame.maxY
+        }
+    }
+    
+    var size: CGSize {
+        set {
+            frame.size = newValue
+        }
+        get {
+            return frame.size
+        }
+    }
+    
+    var navigationController: UINavigationController? {
+        return UIViewController.current.navigationController
+    }
 }
 
 public extension UIImage {
@@ -295,7 +484,7 @@ public extension UIImage {
     ///
     /// - Parameter size: 尺寸
     /// - Returns:
-    func scale(size: CGSize) -> UIImage {
+    func scaleToFit(size: CGSize) -> UIImage {
         let imageWidth = self.size.width
         let imageHeight = self.size.height
         
@@ -311,6 +500,24 @@ public extension UIImage {
         self.draw(in: CGRect(origin: .zero, size: targetSize))
         return UIGraphicsGetImageFromCurrentImageContext()!
     }
+    
+    func scaleToFill(size: CGSize) -> UIImage {
+        let imageWidth = self.size.width
+        let imageHeight = self.size.height
+        
+        let widthScale = size.width / imageWidth
+        let heightScale = size.height / imageHeight
+        let scale = max(widthScale, heightScale)
+        
+        let scaleWidth = imageWidth * scale
+        let scaleHeight = imageHeight * scale
+        let targetSize = CGSize(width: scaleWidth, height: scaleHeight)
+        
+        UIGraphicsBeginImageContext(targetSize)
+        self.draw(in: CGRect(origin: .zero, size: targetSize))
+        return UIGraphicsGetImageFromCurrentImageContext()!
+    }
+    
     
     /// 抠图
     ///
@@ -355,11 +562,6 @@ public extension UIImage {
 }
 
 public extension UIViewController {
-    func showAlert(title: String = "提示", message: String, cancel: String = "确定") {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
     
     /// 通过字符串实例化控制器
     ///
@@ -374,5 +576,99 @@ public extension UIViewController {
             return nil
         }
         return thisClassType.init()
+    }
+    
+    /// 根控制器
+    static var root: UIViewController? {
+        set {
+            UIApplication.shared.keyWindow?.rootViewController = newValue
+        }
+        get {
+            return UIApplication.shared.keyWindow?.rootViewController
+        }
+    }
+    
+    static var current: UIViewController {
+        return UIViewController.root!.getCurrentVC()
+    }
+    
+    func getCurrentVC() -> UIViewController {
+        var currentVC = self
+        if let presentVC = self.presentedViewController {
+            currentVC = presentVC.getCurrentVC()
+        } else if self is UITabBarController {
+            currentVC = (self as! UITabBarController).selectedViewController!.getCurrentVC()
+        } else if self is UINavigationController {
+            currentVC = (self as! UINavigationController).visibleViewController!.getCurrentVC()
+        }
+        return currentVC
+    }
+}
+public extension UIButton {
+    var title: String {
+        set {
+            setTitle(newValue, for: .normal)
+        }
+        get {
+            return currentTitle ?? ""
+        }
+    }
+    
+    var image: UIImage? {
+        set {
+            setImage(newValue, for: .normal)
+        }
+        get {
+            return image(for: .normal)
+        }
+    }
+    
+    var backgroundImage: UIImage? {
+        set {
+            setBackgroundImage(newValue, for: .normal)
+        }
+        get {
+            return backgroundImage(for: .normal)
+        }
+    }
+    
+    func setAction(action: Selector) {
+        self.addTarget(nil, action: action, for: .touchUpInside)
+    }
+}
+
+public extension UITextField {
+    @IBInspectable var placeholderColor: UIColor {
+        set {
+            guard let placeholder = placeholder,
+                let font = font else {
+                    return
+            }
+            let attrString = NSAttributedString(string: placeholder, attributes: [
+                NSForegroundColorAttributeName: newValue,
+                NSFontAttributeName: font])
+            attributedPlaceholder = attrString
+        }
+        get {
+            return UIColor()
+        }
+    }
+}
+
+public extension NSObject {
+    func log(fullName: String = #file, lineNum: Int = #line) {
+        let path = fullName.components(separatedBy: "/").last!
+        let fileName = path.components(separatedBy: ".").first!
+        print("‼️\(fileName)-[第\(lineNum)行]:💋\(self)")
+    }
+    
+    func listen(name: String, action: Selector) {
+        NotificationCenter.default.addObserver(self, selector: action, name: NSNotification.Name(name), object: nil)
+    }
+}
+
+public extension NotificationCenter {
+    static func post(name: String, obj: Any? = nil) {
+        NotificationCenter.default.post(name: NSNotification.Name(name), object: obj)
     }
 }

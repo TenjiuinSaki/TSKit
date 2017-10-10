@@ -8,11 +8,7 @@
 
 import UIKit
 
-public func TSLog<T>(message: T, fullName: String = #file, lineNum: Int = #line) {
-    let path = fullName.components(separatedBy: "/").last!
-    let fileName = path.components(separatedBy: ".").first!
-    print("‼️\(fileName)-[第\(lineNum)行]:💋\(message)")
-}
+
 
 
 

@@ -33,7 +33,7 @@ public class TSFilterView: UIView {
         let eaglContext = EAGLContext(api: .openGLES2)!
         
         
-        let scaleImage = image.scale(size: frame.size)
+        let scaleImage = image.scaleToFit(size: frame.size)
         ciImage = CIImage(image: scaleImage)!
         
         /// 缓冲视图

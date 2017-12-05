@@ -18,10 +18,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
-
-        
-        listen(name: "n1", action: #selector(notif(n:)))
         
         NotificationCenter.post(name: "n1")
         
@@ -43,10 +39,10 @@ class ViewController: UIViewController {
 //        button.setTitle("Swift", for: .normal)
         button.title = "Swift"
         view.addSubview(button)
-        button.setAction(action: #selector(buttonClick))
-//        button.addTarget(nil, action: #selector(buttonClick), for: .touchUpInside)
         
-        let a = #selector(buttonClick)
+        button.addTarget(self, action: #selector(buttonClick), for: .touchUpInside)
+        
+        
         
 //        let height = "发数据库fksjf_34924290发数据库fksjf_34924290发数据库fksjf_34924290发数据库fksjf_34924290".height(width: 100, font: UIFont.size(20))
   
@@ -92,7 +88,7 @@ class ViewController: UIViewController {
         view.addSubview(view1)
     }
 
-    func buttonClick() {
+    @objc func buttonClick() {
 //        performSegue(withIdentifier: "show_segue", sender: nil)
         performSegue(withIdentifier: "capture_segue", sender: nil)
     }

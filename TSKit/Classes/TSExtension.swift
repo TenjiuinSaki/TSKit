@@ -38,15 +38,24 @@ public extension Int {
         let size = CGFloat.maximum(1, floor(f))
         return size
     }
+    var double: Double {
+        return Double(self)
+    }
+    var str: String {
+        return String(self)
+    }
 }
 
 public extension Double {
     func precision(p: Int) -> String {
         return String(format: "%.\(p)f", self)
     }
-    
+    ///最多保留两位
+    var str2: String {
+        return NSDecimalNumber(string: String(format: "%.2f", self)).stringValue
+    }
     var str: String {
-        return String(format: "%g", self)
+        return NSDecimalNumber(string: String(format: "%lf", self)).stringValue
     }
 }
 
@@ -78,6 +87,7 @@ public extension UIApplication {
                 
                 guard let dic = json as? NSDictionary,
                     let results = dic["results"] as? NSArray,
+                    results.count > 0,
                     let result = results[0] as? NSDictionary,
                     let version = result["version"] as? String
                     else {
@@ -151,7 +161,7 @@ public extension String {
         var resArray = [String]()
         do {
             let regular = try NSRegularExpression(pattern: regex, options: NSRegularExpression.Options.caseInsensitive)
-            let res = regular.matches(in: self, options: NSRegularExpression.MatchingOptions.init(rawValue: 0), range: NSMakeRange(0, self.characters.count))
+            let res = regular.matches(in: self, options: NSRegularExpression.MatchingOptions.init(rawValue: 0), range: NSMakeRange(0, self.count))
             for checkRes in res {
                 resArray.append((self as NSString).substring(with: checkRes.range))
             }
@@ -173,48 +183,13 @@ public extension String {
         return self.data(using: .utf8)?.base64EncodedString()
     }
     
-    /// 时间戳转时间
-    ///
-    /// - Parameter format: 格式
-    /// - Returns:
-    func time(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
-        guard let timeInterval = Double(self) else { return "" }
-        let date: Date
-        if self.hasSuffix("000") {
-            date = Date(timeIntervalSince1970: timeInterval / 1000)
-        } else {
-            date = Date(timeIntervalSince1970: timeInterval)
-        }
-        let now = Date()
-        let interval = Int(now.timeIntervalSince(date))
-        if interval < 60 {
-            return "刚刚"
-        }
-        if interval < 60 * 60 {
-            return "\(interval / 60)分钟前"
-        }
-        if interval < 60 * 60 * 24 {
-            return "\(interval / 60 / 60)小时前"
-        }
-        if interval < 60 * 60 * 24 * 3 {
-            return "\(interval / 60 / 60 / 24)天前"
-        }
-        return date.string(format: format)
-    }
-    
     /// 时间戳格式化
     ///
     /// - Parameter format: 格式
     /// - Returns:
-    func date(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
-        guard let timeInterval = Double(self) else { return "" }
-        let date: Date
-        if self.hasSuffix("000") {
-            date = Date(timeIntervalSince1970: timeInterval / 1000)
-        } else {
-            date = Date(timeIntervalSince1970: timeInterval)
-        }
-        return date.string(format: format)
+    func date() -> Date? {
+        guard let timeInterval = Double(self.retainFirst(count: 10)) else { return nil }
+        return Date(timeIntervalSince1970: timeInterval)
     }
     
     /// 当前时间戳
@@ -230,7 +205,7 @@ public extension String {
     }
     
     func width(font: UIFont) -> CGFloat {
-        let rect = (self as NSString).boundingRect(with: CGSize(width: CGFloat.infinity, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let rect = (self as NSString).boundingRect(with: CGSize(width: CGFloat.infinity, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
         return rect.size.width
     }
     
@@ -241,8 +216,15 @@ public extension String {
     ///   - font: 字体
     /// - Returns: 高度
     func height(width: CGFloat, font: UIFont) -> CGFloat {
-        let rect = (self as NSString).boundingRect(with: CGSize(width: width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let rect = (self as NSString).boundingRect(with: CGSize(width: width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
         return rect.size.height
+    }
+    
+    func attribute(color: UIColor, font: UIFont) -> NSAttributedString {
+        return NSAttributedString(string: self, attributes: [
+            NSAttributedStringKey.foregroundColor: color,
+            NSAttributedStringKey.font: font
+            ])
     }
     
     /// 设备UUID
@@ -252,14 +234,14 @@ public extension String {
     
     /// 去掉后几位
     func removeLast(count: Int) -> String {
-        guard self.characters.count > count else {
+        guard self.count > count else {
             return self
         }
-        return (self as NSString).substring(with: NSMakeRange(0, self.characters.count - count))
+        return (self as NSString).substring(with: NSMakeRange(0, self.count - count))
     }
     
     func removeFirst(count: Int) -> String {
-        guard self.characters.count > count else {
+        guard self.count > count else {
             return self
         }
         return (self as NSString).substring(from: count)
@@ -267,13 +249,13 @@ public extension String {
     
     /// 保留后几位
     func retainLast(count: Int) -> String {
-        guard self.characters.count > count else {
+        guard self.count > count else {
             return self
         }
-        return (self as NSString).substring(with: NSMakeRange(self.characters.count - count, count))
+        return (self as NSString).substring(with: NSMakeRange(self.count - count, count))
     }
     func retainFirst(count: Int) -> String {
-        guard self.characters.count > count else {
+        guard self.count > count else {
             return self
         }
         return (self as NSString).substring(to: count)
@@ -312,6 +294,24 @@ public extension Date {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         return formatter.string(from: self)
+    }
+    
+    func time(format: String = "MM-dd HH:mm") -> String {
+        let now = Date()
+        let interval = Int(now.timeIntervalSince(self))
+        if interval < 60 {
+            return "刚刚"
+        }
+        if interval < 60 * 60 {
+            return "\(interval / 60)分钟前"
+        }
+        if interval < 60 * 60 * 24 {
+            return "\(interval / 60 / 60)小时前"
+        }
+        if interval < 60 * 60 * 24 * 3 {
+            return "\(interval / 60 / 60 / 24)天前"
+        }
+        return self.string(format: format)
     }
 }
 public extension UIView {
@@ -448,7 +448,17 @@ public extension UIView {
         return UIViewController.current.navigationController
     }
 }
-
+extension UIImageView {
+    var imageColor: UIColor {
+        set {
+            self.tintColor = newValue
+            self.image = image?.withRenderingMode(.alwaysTemplate)
+        }
+        get {
+            return tintColor
+        }
+    }
+}
 public extension UIImage {
     
     /// 人脸识别，获取面部位置
@@ -631,26 +641,77 @@ public extension UIButton {
             return backgroundImage(for: .normal)
         }
     }
-    
-    func setAction(action: Selector) {
-        self.addTarget(nil, action: action, for: .touchUpInside)
+    var textfont: UIFont {
+        set {
+            titleLabel?.font = newValue
+        }
+        get {
+            return titleLabel?.font ?? UIFont()
+        }
+    }
+    var imageColor: UIColor {
+        set {
+            self.tintColor = newValue
+            self.image = image?.withRenderingMode(.alwaysTemplate)
+        }
+        get {
+            return tintColor
+        }
+    }
+    var titleColor: UIColor? {
+        set(newValue) {
+            setTitleColor(newValue, for: .normal)
+        }
+        get {
+            return titleColor(for: .normal)
+        }
     }
 }
 
 public extension UITextField {
-    @IBInspectable var placeholderColor: UIColor {
+    var placeholderColor: UIColor {
         set {
             guard let placeholder = placeholder,
                 let font = font else {
                     return
             }
             let attrString = NSAttributedString(string: placeholder, attributes: [
-                NSForegroundColorAttributeName: newValue,
-                NSFontAttributeName: font])
+                .foregroundColor: newValue,
+                .font: font])
             attributedPlaceholder = attrString
         }
         get {
             return UIColor()
+        }
+    }
+}
+public extension UILabel {
+    var lineSpace: CGFloat {
+        set {
+            guard let text = text else {
+                return
+            }
+            let graphStyle = NSMutableParagraphStyle()
+            graphStyle.lineSpacing = newValue
+            attributedText = NSAttributedString(string: text, attributes: [NSAttributedStringKey.paragraphStyle: graphStyle])
+        }
+        get {
+            return 0
+        }
+    }
+}
+public extension UIColor {
+    var image: UIImage? {
+        let rect = CGRect(x: 0, y: 0, width: 0.5, height: 0.5)
+        UIGraphicsBeginImageContext(rect.size)
+        if let context = UIGraphicsGetCurrentContext() {
+            context.setFillColor(self.cgColor)
+            context.fill(rect)
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return image
+        } else {
+            return nil
         }
     }
 }
@@ -670,5 +731,73 @@ public extension NSObject {
 public extension NotificationCenter {
     static func post(name: String, obj: Any? = nil) {
         NotificationCenter.default.post(name: NSNotification.Name(name), object: obj)
+    }
+}
+
+public extension Timer {
+    func open() {
+        fireDate = NSDate.distantPast
+    }
+    func pause() {
+        fireDate = NSDate.distantFuture
+    }
+}
+
+public extension JSONDecoder {
+    static func models<T: Decodable>(array: NSArray, type: T.Type) -> [T] {
+        var models = [T]()
+        
+        for obj in array {
+            do {
+                let data = try JSONSerialization.data(withJSONObject: obj, options: .prettyPrinted)
+                let model = try JSONDecoder().decode(type, from: data)
+                models.append(model)
+            } catch {
+                print("转换失败")
+            }
+        }
+        
+        return models
+    }
+}
+
+public extension URLRequest {
+    static func get(urlStr: String, params: NSDictionary? = nil, timeout: TimeInterval = 10) -> URLRequest? {
+        var urlStr = urlStr
+        if let params = params {
+            var paramStr = ""
+            for (key, value) in params {
+                paramStr.append("\(key)=\(value)&")
+            }
+            urlStr += ("?" + paramStr)
+        }
+        
+        
+        guard let str = urlStr.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let url = URL(string: str) else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.timeoutInterval = timeout
+        
+        return request
+    }
+    static func post(urlStr: String, params: NSDictionary? = nil, timeout: TimeInterval = 10) -> URLRequest? {
+        guard let url = URL(string: urlStr) else {
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.timeoutInterval = timeout
+        
+        if let params = params {
+            var paramStr = ""
+            for (key, value) in params {
+                paramStr.append("\(key)=\(value)&")
+            }
+            request.httpBody = paramStr.data(using: .utf8)
+        }
+        
+        return request
     }
 }

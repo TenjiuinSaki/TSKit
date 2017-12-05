@@ -68,11 +68,11 @@ class CaptureViewController: UIViewController {
         captureSession.beginConfiguration()     //开始活动配置
         
         // 高质量音视频输出
-        captureSession.sessionPreset = AVCaptureSessionPresetHigh
+        captureSession.sessionPreset = .high
         
         // 获取后置摄像头
-        let captureDevice = AVCaptureDeviceDiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaTypeVideo, position: .back)
-        guard let device = captureDevice?.devices.first else {
+        let captureDevice = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
+        guard let device = captureDevice.devices.first else {
             
             return
         }
@@ -98,7 +98,7 @@ class CaptureViewController: UIViewController {
         let metadataOutput = AVCaptureMetadataOutput()
         metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
         captureSession.addOutput(metadataOutput)
-        metadataOutput.metadataObjectTypes = [AVMetadataObjectTypeFace]
+        metadataOutput.metadataObjectTypes = [.face]
         
         captureSession.commitConfiguration()        // 完成活动配置
     }
@@ -140,13 +140,13 @@ class CaptureViewController: UIViewController {
     }
     
     @IBAction func shiftCamera(_ sender: UIBarButtonItem) {
-        captureSession.removeInput(currentDeviceInput)
-        let position: AVCaptureDevicePosition = currentDevice!.position == .back ? .front : .back
+        captureSession.removeInput(currentDeviceInput!)
+        let position: AVCaptureDevice.Position = currentDevice!.position == .back ? .front : .back
         
-        currentDevice = AVCaptureDeviceDiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaTypeVideo, position: position).devices.first
+        currentDevice = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: position).devices.first
         
-        currentDeviceInput = try! AVCaptureDeviceInput(device: currentDevice)
-        captureSession.addInput(currentDeviceInput)
+        currentDeviceInput = try! AVCaptureDeviceInput(device: currentDevice!)
+        captureSession.addInput(currentDeviceInput!)
         let animation = CATransition()
         animation.duration = 0.25
         animation.type = kCATransitionFade
@@ -181,7 +181,7 @@ class CaptureViewController: UIViewController {
     func createWriter() -> Bool {
         checkFile()
         do {
-            assetWriter = try AVAssetWriter(url: fileUrl, fileType: AVFileTypeQuickTimeMovie)
+            assetWriter = try AVAssetWriter(url: fileUrl, fileType: .mov)
         } catch { return false }
         
         let outputSettings: [String: Any] = [
@@ -190,7 +190,7 @@ class CaptureViewController: UIViewController {
             AVVideoHeightKey: currentVideoDimensions!.height
         ]
         
-        let assetWriterVideoInput = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: outputSettings)
+        let assetWriterVideoInput = AVAssetWriterInput(mediaType: .video, outputSettings: outputSettings)
         assetWriterVideoInput.expectsMediaDataInRealTime = true
         assetWriterVideoInput.transform = CGAffineTransform(rotationAngle: CGFloat
         .pi / 2)
@@ -280,7 +280,7 @@ extension CaptureViewController: AVCaptureVideoDataOutputSampleBufferDelegate, A
         default:
             transform = CGAffineTransform.identity
         }
-        outputImage = outputImage.applying(transform)
+        outputImage = outputImage.transformed(by: transform)
         currentImage = outputImage          // 记录当前图像
         
         // openGL 实时渲染

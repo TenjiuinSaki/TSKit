@@ -1,7 +1,7 @@
 //
-//  DispatchQueue+Alamofire.swift
+//  SnapKit
 //
-//  Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,18 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
-//
 
-import Dispatch
 import Foundation
 
-extension DispatchQueue {
-    static var userInteractive: DispatchQueue { return DispatchQueue.global(qos: .userInteractive) }
-    static var userInitiated: DispatchQueue { return DispatchQueue.global(qos: .userInitiated) }
-    static var utility: DispatchQueue { return DispatchQueue.global(qos: .utility) }
-    static var background: DispatchQueue { return DispatchQueue.global(qos: .background) }
+#if os(iOS) || os(tvOS)
+    import UIKit
+    typealias LayoutRelation = NSLayoutRelation
+    typealias LayoutAttribute = NSLayoutAttribute
+    typealias LayoutPriority = UILayoutPriority
+#else
+    import AppKit
+    typealias LayoutRelation = NSLayoutConstraint.Relation
+    typealias LayoutAttribute = NSLayoutConstraint.Attribute
+    typealias LayoutPriority = NSLayoutConstraint.Priority
+#endif
 
-    func after(_ delay: TimeInterval, execute closure: @escaping () -> Void) {
-        asyncAfter(deadline: .now() + delay, execute: closure)
-    }
-}

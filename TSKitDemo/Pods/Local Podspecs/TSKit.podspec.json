@@ -1,6 +1,6 @@
 {
   "name": "TSKit",
-  "version": "1.0.5",
+  "version": "1.1.1",
   "summary": "A framework for commonly used functions",
   "homepage": "https://github.com/TenjiuinSaki/TSKit",
   "license": {
@@ -12,19 +12,11 @@
   },
   "source": {
     "git": "https://github.com/TenjiuinSaki/TSKit.git",
-    "tag": "1.0.5"
+    "tag": "1.1.1"
   },
   "social_media_url": "https://github.com/TenjiuinSaki",
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "TSKit/**/*",
-  "dependencies": {
-    "Cache": [
-
-    ],
-    "Alamofire": [
-
-    ]
-  }
+  "source_files": "TSKit/**/*"
 }
